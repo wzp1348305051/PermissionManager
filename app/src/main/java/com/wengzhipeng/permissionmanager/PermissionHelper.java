@@ -90,69 +90,13 @@ public class PermissionHelper {
      * @param activity    上下文
      * @param requestCode 请求码
      * @param callback    回调
-     * @param permission  权限名称，由PermissionRequest获取
-     */
-    public void requestPermission(final Activity activity, final int requestCode, IPermissionCallback callback, final String permission) {
-        if (callback != null) {
-            mCallbacks.put(requestCode, callback);
-        }
-        if (shouldShowRequestPermissionRationale(activity, permission)) {
-            ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
-        } else {
-            new AlertDialog.Builder(activity)
-                    .setMessage("您需要允许" + PermissionRequest.getPermissionDescription(permission) + "权限！")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    })
-                    .create()
-                    .show();
-        }
-    }
-
-    /**
-     * 请求权限
-     *
-     * @param activity    上下文
-     * @param requestCode 请求码
-     * @param callback    回调
      * @param permissions 权限名称列表，每个权限由PermissionRequest获取
      */
     public void requestPermissions(final Activity activity, final int requestCode, IPermissionCallback callback, final String... permissions) {
         if (callback != null) {
             mCallbacks.put(requestCode, callback);
         }
-        if (shouldShowRequestPermissionRationales(activity, permissions)) {
-            ActivityCompat.requestPermissions(activity, permissions, requestCode);
-        } else {
-            StringBuffer buffer = new StringBuffer();
-            for (String permission : permissions) {
-                buffer.append(permission).append("、");
-            }
-            String message = buffer.substring(0, buffer.length());
-            new AlertDialog.Builder(activity)
-                    .setMessage("您需要允许" + message + "权限！")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(activity, permissions, requestCode);
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    })
-                    .create()
-                    .show();
-        }
+        ActivityCompat.requestPermissions(activity, permissions, requestCode);
     }
 
     /**
